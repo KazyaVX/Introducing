@@ -1,17 +1,30 @@
-// Placeholder for JavaScript functionality
-console.log("Welcome to My Portfolio!");
+const professions = ["Naufal Lutfy N.", "Programmer", "UI/UX"];
+        let index = 0;
+        let charIndex = 0;
+        let deleting = false;
 
-// Get the bubble element
-const bubble = document.querySelector('.bubble');
+        function type() {
+            const currentText = professions[index];
+            const typingContainer = document.getElementById("typing");
 
-// Set initial position and size
-bubble.style.left = '100px';
-bubble.style.top = '200px';
-bubble.style.width = '50px';
-bubble.style.height = '50px';
+            if (!deleting && charIndex <= currentText.length) {
+                // Menulis teks
+                typingContainer.textContent = currentText.slice(0, charIndex++);
+                setTimeout(type, 100);
+            } else if (deleting && charIndex > 0) {
+                // Menghapus teks
+                typingContainer.textContent = currentText.slice(0, charIndex--);
+                setTimeout(type, 50);
+            } else if (!deleting && charIndex === currentText.length) {
+                // Menunggu sebelum menghapus
+                deleting = true;
+                setTimeout(type, 1000);
+            } else if (deleting && charIndex === 0) {
+                // Pindah ke kata berikutnya setelah dihapus semua
+                deleting = false;
+                index = (index + 1) % professions.length;
+                setTimeout(type, 200);
+            }
+        }
 
-// Animate the bubble
-setInterval(() => {
-  // Update position, size, or other properties
-  bubble.style.left = (Math.random() * window.innerWidth) + 'px';
-}, 1000); // Change the interval for animation speed
+        document.addEventListener("DOMContentLoaded", type);
